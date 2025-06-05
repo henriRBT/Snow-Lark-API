@@ -8,7 +8,7 @@ namespace Swow_Lark_API.Services
         public class ServiceNow
         {
             private readonly HttpClient _httpClient;
-        
+           
             public ServiceNow(IConfiguration config)
             {
                 var website = config["ServiceNow:Website"];
@@ -26,8 +26,9 @@ namespace Swow_Lark_API.Services
 
             public async Task<List<SnowModel>> GetSnow()
             {
-                var query = "assignment_group=ac4cd4814762c290415f7569116d43d2^active=true^stateIN2^sys_created_onONToday";
-                var response = await _httpClient.GetAsync($"/api/now/table/incident?sysparm_query={query}&sysparm_limit=100");
+                //var query = $"assignment_group={assigment}^active=true^stateIN2,-5,6^sys_created_onONToday";
+                var query = "assignment_group=ac4cd4814762c290415f7569116d43d2^active=true^stateIN2,-5^sys_created_onONToday";
+                var response = await _httpClient.GetAsync($"/api/now/table/incident?sysparm_query={query}&sysparm_fields=number,short_description,state,assigned");
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync();

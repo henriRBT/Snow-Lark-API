@@ -19,14 +19,15 @@ namespace Swow_Lark_API.Services
             using var client = new HttpClient();
             var lark = new
             {
-                appid = _config["Lark:AppId"],
-                appsecret = _config["Lark:AppSecret"]
+                app_id = _config["Lark:AppId"],
+                app_secret = _config["Lark:AppSecret"]
             };
 
             var res = await client.PostAsJsonAsync("https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal", lark);
             var json = await res.Content.ReadAsStringAsync();
 
             dynamic result = JsonConvert.DeserializeObject(json)!;
+            Console.WriteLine("🔑 Token Lark: " + result.tenant_access_token);
             return result.tenant_access_token;
         }
 
