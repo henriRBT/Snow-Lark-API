@@ -42,7 +42,7 @@ app.MapControllers();
 RecurringJob.AddOrUpdate<Reportjob>(
     "report",
     job => job.GenerateReport(),
-    Cron.Daily(14)
+    Cron.Daily(07)
 );
 
 app.Run();

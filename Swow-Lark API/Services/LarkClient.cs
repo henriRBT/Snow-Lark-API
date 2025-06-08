@@ -72,7 +72,7 @@ namespace Swow_Lark_API.Services
             {
                 valueRange = new
                 {
-                    range = "Sheet1!A1",
+                    range = "Sheet1",
                     values = values
                 }
             };

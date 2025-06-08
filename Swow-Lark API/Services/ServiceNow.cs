@@ -18,7 +18,7 @@ namespace Swow_Lark_API.Services
 
                 _httpClient = new HttpClient
                 {
-                    BaseAddress = new Uri($"https://{website}/portalpelindo?id=landing")
+                    BaseAddress = new Uri($"https://{website}")
                 };
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {auth}");
                 _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -27,6 +27,7 @@ namespace Swow_Lark_API.Services
             public async Task<List<SnowModel>> GetSnow()
             {
                 //var query = $"assignment_group={assigment}^active=true^stateIN2,-5,6^sys_created_onONToday";
+
                 var query = "assignment_group=ac4cd4814762c290415f7569116d43d2^active=true^stateIN2,-5^sys_created_onONToday";
                 var response = await _httpClient.GetAsync($"/api/now/table/incident?sysparm_query={query}&sysparm_fields=number,short_description,state,assigned");
                 response.EnsureSuccessStatusCode();
@@ -39,7 +40,12 @@ namespace Swow_Lark_API.Services
                     Nomor = i["number"]?.ToString(),
                     Deskripsi = i["short_description"]?.ToString(),
                     CreateOn = i["sys_created_on"]?.ToString(),
-                    State = i["state"]?.ToString()
+                    State = i["state"]?.ToString() switch { 
+                        "2" => "Active", 
+                        "-5" => "Pending",
+                        "6"=> "Resolved",
+                         _ =>i["state"]?.ToString()
+                    }
                 }).ToList();
             }
 

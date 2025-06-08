@@ -20,8 +20,14 @@
             var sheet = await lark.CreateSpreadsheet(token, $"Incident {DateTime.Today:yyyy-MM-dd}");
             await lark.WriteData(token, sheet, data);
 
-
-            Console.WriteLine("✅ Data berhasil dikirim ke Lark Spreadsheet.");
+            foreach (var item in data)
+            {
+                Console.WriteLine($"Nomor     : {item.Nomor}");
+                Console.WriteLine($"Deskripsi : {item.Deskripsi}");
+                Console.WriteLine($"CreateOn  : {item.CreateOn}");
+                Console.WriteLine($"State     : {item.State}");
+                Console.WriteLine(new string('-', 40));
+            }
         }
     }
 
